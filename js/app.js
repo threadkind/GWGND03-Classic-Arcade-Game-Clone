@@ -16,7 +16,6 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    console.log('refresh');
     this.x += dt * 100;
 
     if (this.x > 505) {
@@ -33,17 +32,30 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function() {
-    this.sprite = 'images/char-horn-girl.png';
-    this.x = 20;
-    this.y = 20;
+    this.sprite = 'images/char-boy.png';
+    this.x = 200;
+    this.y = 380;
 }
 Player.prototype.update = function() {
+    //if(e.keyCode)
 
 };
 Player.prototype.render = function() {
-    //ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
-Player.prototype.handleInput = function() {
+Player.prototype.handleInput = function(key) {
+    if(key === 'left' && this.x > 0){
+        this.x -= 100;
+    }
+    if(key === 'right' && this.x < 400){
+        this.x += 100;
+    }
+    if(key === 'up' && this.y > -20){
+        this.y -= 80;
+    }
+    if(key === 'down' && this.y < 380){
+        this.y += 80;
+    }
 
 };
 
