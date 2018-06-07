@@ -1,3 +1,67 @@
+:root {
+	--green: rgba(0, 204, 0, 1);
+}
+
+* {
+	font-family: 'Press Start 2P', cursive;
+}
+
 body {
     text-align: center;
+}
+.panel {
+	position: absolute;
+	left: calc(50% - 200px);
+	top: 100px;
+	width: 400px;
+	height: 450px;
+	background: rgba(0,0,0,1);
+	color: var(--green);
+	box-shadow: 5px 5px 10px rgba(50,50,50,1);
+}
+#characters {
+	padding: 20px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+
+#characters > div {
+	width: 100px;
+	height: 100px;
+	overflow: hidden;
+	background-position: 50% 70%;
+	background-color: white;
+	margin: 10px;
+
+}
+#characters > div:hover {
+	background-color: var(--green);
+
+}
+#char-boy {
+	background: url(../images/char-boy.png);
+
+}
+#char-cat-girl {
+	background: url(../images/char-cat-girl.png);
+
+
+}
+#char-horn-girl {
+	background: url(../images/char-horn-girl.png);
+
+
+}
+#char-pink-girl {
+	background: url(../images/char-pink-girl.png);
+
+
+}
+#char-princess-girl {
+	background: url(../images/char-princess-girl.png);
+
+}
+.winner {
+	display: none;
 }

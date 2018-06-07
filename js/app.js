@@ -76,6 +76,7 @@ Player.prototype.handleInput = function(key) {
     if(this.y === -20) {
         this.resetPlayer();
         console.log('winner!');
+        winner();
     }
 };
 
@@ -88,14 +89,24 @@ Player.prototype.resetPlayer = function() {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+var line1 = 220;
+var line2 = 140;
+var line3 = 60;
+
+var randomNum = function(Num){
+    return Math.floor(Math.random()*Num);
+}
 
 var player = new Player();
 
-var enemy1 = new Enemy(-100, 60, 150);
-var enemy2 = new Enemy(-200, 140, 100);
-var enemy3 = new Enemy(-150, 220, 125);
+var enemy1 = new Enemy(randomNum(-500), line1, randomNum(400));
+var enemy2 = new Enemy(randomNum(-500), line2, randomNum(400));
+var enemy3 = new Enemy(randomNum(-500), line3, randomNum(400));
+var enemy4 = new Enemy(randomNum(-500), line1, randomNum(400));
+var enemy5 = new Enemy(randomNum(-500), line2, randomNum(400));
+var enemy6 = new Enemy(randomNum(-500), line3, randomNum(400));
 
-var allEnemies = [enemy1, enemy2, enemy3];
+var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6];
 
 
 // This listens for key presses and sends the keys to your
@@ -110,3 +121,22 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+document.querySelector("#characters").addEventListener('click', function(e){
+    if(e.target.id != "characters") {
+        var chosenPlayer =  `images/${e.target.id}.png`;
+
+        console.log(chosenPlayer);
+        player.sprite = chosenPlayer;
+
+        document.querySelector('.gameStart').style.display = "none";
+    }
+});
+
+document.querySelector('.winner').addEventListener('click', function(){
+        location.reload();
+});
+
+var winner = function(){
+    document.querySelector('.winner').style.display = "block";
+}
