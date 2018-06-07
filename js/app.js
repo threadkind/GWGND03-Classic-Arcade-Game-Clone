@@ -107,6 +107,7 @@ Player.prototype.loseLife = function() {
         lifeContainer.innerHTML = '';
         document.querySelector('.gameOver').style.display = "block"
     }
+    document.querySelector('#impact').play();
 };
 
 
