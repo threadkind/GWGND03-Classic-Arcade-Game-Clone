@@ -37,8 +37,9 @@ body {
 }
 .panel {
 	position: absolute;
-	left: calc(50% - 200px);
+	left: calc(50% - 210px);
 	top: 100px;
+	padding: 10px;
 	width: 400px;
 	height: 450px;
 	background: var(--black);
@@ -59,7 +60,7 @@ body {
 	background-position: 50% 70%;
 	background-color: var(--white);
 	margin: 10px;
-
+	cursor: pointer;
 }
 #characters > div:hover {
 	background-color: var(--green);
@@ -88,8 +89,23 @@ body {
 	background: url(../images/char-princess-girl.png);
 
 }
+#rulesClick {
+	cursor: pointer;
+}
+#rulesClose {
+	float: right;
+	cursor: pointer;
+}
+.rules {
+}
+.closed {
+	display: none;
+}
 .gameOver {
 	display: none;
+}
+#gameOverText {
+	font-size: 60px;
 }
 .winner {
 	display: none;

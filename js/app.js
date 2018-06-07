@@ -1,36 +1,36 @@
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
+    //variables to create enemy bug
     this.sprite = 'images/enemy-bug.png';
     this.x = x;
     this.y = y;
     this.speed = speed;
 };
+//Prototypes for enemy
 
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
+Enemy.prototype = {
+    // Update the enemy's position, required method for game
+    // Parameter: dt, a time delta between ticks
+    update: function(dt) {
+    // You should multiply any movement by the dt parameter which will ensure the game runs at the same speed for all computers.
     this.x += dt * this.speed;
 
+    //when the ememy gets to the end of the screen reset back to the beginning
     if (this.x > 505) {
         this.x = -100;
     }
+
+    //if the enemy is on the same line as the player...
     if(this.y === player.y){
+        //check if the player is in the same column also
         if (player.x === 0 && this.x < 50 && this.x > -50){
+            //if the player and the bug collide, reset the player and lose a life
             player.resetPlayer();
             player.loseLife();
         };
         if (player.x === 100 && this.x < 150 && this.x > 50){
             player.resetPlayer();
             player.loseLife();
-
         };
         if (player.x === 200 && this.x < 250 && this.x > 150){
             player.resetPlayer();
@@ -45,11 +45,12 @@ Enemy.prototype.update = function(dt) {
             player.loseLife();
         };
     };
-};
+},
 
 // Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
+render: function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
 };
 
 // Now write your own player class
@@ -62,13 +63,13 @@ var Player = function() {
     this.highestPoint = 380;
     this.lives = 3;
 }
-Player.prototype.update = function() {
-};
-
-Player.prototype.render = function() {
+Player.prototype = {
+    update : function() {
+},
+    render : function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
-Player.prototype.handleInput = function(key) {
+},
+    handleInput: function(key) {
     if(key === 'left' && this.x > 0){
         this.x -= 100;
     }
@@ -97,15 +98,15 @@ Player.prototype.handleInput = function(key) {
     orangeGem.collect();
 
 
-};
+},
 
-Player.prototype.resetPlayer = function() {
+    resetPlayer : function() {
     this.x = 200;
     this.y = 380;
     this.highestPoint = 380;
-};
+},
 
-Player.prototype.loseLife = function() {
+    loseLife : function() {
     var lifeContainer = document.querySelector('#lives');
 
     this.lives -= 1;
@@ -119,10 +120,12 @@ Player.prototype.loseLife = function() {
     }
     if(this.lives === 0) {
         lifeContainer.innerHTML = '';
-        document.querySelector('.gameOver').style.display = "block"
+        document.querySelector('.gameOver').style.display = "block";
+
     }
     document.querySelector('#impact').play();
-};
+}
+}
 
 var Gem =  function(x, y, color, scoreValue){
     this.sprite = `images/Gem-${color}.png`;
@@ -130,10 +133,11 @@ var Gem =  function(x, y, color, scoreValue){
     this.y = y;
     this.scoreValue = scoreValue;
 }
-Gem.prototype.render = function() {
+Gem.prototype = {
+    render : function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 60, 90);
-};
-Gem.prototype.collect = function() {
+},
+    collect : function() {
     var checkX = false;
     var checkY = false;
 
@@ -169,6 +173,7 @@ Gem.prototype.collect = function() {
     checkX = false;
     checkY = false;
 }
+};
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -260,6 +265,13 @@ var resetGame = function(){
 document.querySelector('.gameOver').addEventListener('click', resetGame);
 
 document.querySelector('.winner').addEventListener('click', resetGame);
+
+document.querySelector('#rulesClose').addEventListener('click', function(){
+        document.querySelector('.rules').classList.add('closed');
+})
+document.querySelector('#rulesClick').addEventListener('click', function(){
+        document.querySelector('.rules').classList.remove('closed');
+})
 
 var winner = function(){
     const localScore = localStorage.getItem('highScore');
