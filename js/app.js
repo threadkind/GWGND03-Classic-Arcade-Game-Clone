@@ -177,7 +177,12 @@ var highScore = localStorage.getItem('highScore');
 var highScoreInitials = localStorage.getItem('highScoreInitials');
 
 if (highScore != null){
-    document.querySelector('#highScore').innerText = `HI-SCORE: ${highScore} ${highScoreInitials}`;
+    if (highScoreInitials != null){
+        document.querySelector('#highScore').innerText = `HI-SCORE: ${highScore} ${highScoreInitials}`;
+    }
+    else {
+        document.querySelector('#highScore').innerText = `HI-SCORE: ${highScore}`;
+    }
 }
 var score = 0;
 
@@ -282,7 +287,12 @@ var winner = function(){
 
 
         document.addEventListener('keyup', function(e){
-
+            if(e.keyCode >= 37 && e.keyCode <= 40) {
+                player.resetPlayer();
+                if(e.keyCode === 38) {
+                    updateScore (-20);
+                }
+            }
             if(initials.length < 3 && e.keyCode >= 48 && e.keyCode <= 90){
             initials += e.key;
             document.querySelector("#initials").innerText = initials.toUpperCase();
@@ -297,9 +307,5 @@ var winner = function(){
 
 
 }
-var checkHighScore = function(newScore){
 
-
-
-}
 
