@@ -59,8 +59,11 @@ var Player = function() {
     this.sprite = 'images/char-boy.png';
     this.x = 200;
     this.y = 380;
+    this.highestPoint = 380;
+    this.lives = 3;
 }
 Player.prototype.update = function() {
+    console.log(player.y);
 };
 
 Player.prototype.render = function() {
@@ -75,7 +78,11 @@ Player.prototype.handleInput = function(key) {
     }
     if(key === 'up' && this.y > -20){
         this.y -= 80;
-        updateScore(10);
+
+        if(this.highestPoint > this.y){
+            this.highestPoint = this.y;
+            updateScore(20);
+        }
 
     }
     if(key === 'down' && this.y < 380){
@@ -90,21 +97,22 @@ Player.prototype.handleInput = function(key) {
 Player.prototype.resetPlayer = function() {
     this.x = 200;
     this.y = 380;
+    this.highestPoint = 380;
 };
 
 Player.prototype.loseLife = function() {
     var lifeContainer = document.querySelector('#lives');
 
-    lives -= 1;
+    this.lives -= 1;
 
-    if(lives === 2) {
+    if(this.lives === 2) {
         lifeContainer.innerHTML = '<img src="images/Heart.png"><img src="images/Heart.png">';
     }
-    if(lives === 1) {
+    if(this.lives === 1) {
         lifeContainer.innerHTML = '<img src="images/Heart.png">';
 
     }
-    if(lives === 0) {
+    if(this.lives === 0) {
         lifeContainer.innerHTML = '';
         document.querySelector('.gameOver').style.display = "block"
     }
@@ -118,7 +126,6 @@ Player.prototype.loseLife = function() {
 
 var score = 0;
 
-var lives = 3;
 
 var line1 = 220;
 var line2 = 140;
