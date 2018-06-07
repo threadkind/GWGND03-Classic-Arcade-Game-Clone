@@ -25,18 +25,24 @@ Enemy.prototype.update = function(dt) {
     if(this.y === player.y){
         if (player.x === 0 && this.x < 50 && this.x > -50){
             player.resetPlayer();
+            player.loseLife();
         };
         if (player.x === 100 && this.x < 150 && this.x > 50){
             player.resetPlayer();
+            player.loseLife();
+
         };
         if (player.x === 200 && this.x < 250 && this.x > 150){
             player.resetPlayer();
+            player.loseLife();
         };
         if (player.x === 300 && this.x < 350 && this.x > 250){
             player.resetPlayer();
+            player.loseLife();
         };
         if (player.x === 400 && this.x < 450 && this.x > 350){
             player.resetPlayer();
+            player.loseLife();
         };
     };
 };
@@ -85,10 +91,31 @@ Player.prototype.resetPlayer = function() {
     this.y = 380;
 };
 
+Player.prototype.loseLife = function() {
+    var lifeContainer = document.querySelector('#lives');
+
+    lives -= 1;
+
+    if(lives === 2) {
+        lifeContainer.innerHTML = '<img src="images/Heart.png"><img src="images/Heart.png">';
+    }
+    if(lives === 1) {
+        lifeContainer.innerHTML = '<img src="images/Heart.png">';
+
+    }
+    if(lives === 0) {
+        lifeContainer.innerHTML = '';
+        document.querySelector('.gameOver').style.display = "block"
+    }
+};
+
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+
+var lives = 3;
+
 var line1 = 220;
 var line2 = 140;
 var line3 = 60;
@@ -126,17 +153,21 @@ document.querySelector("#characters").addEventListener('click', function(e){
     if(e.target.id != "characters") {
         var chosenPlayer =  `images/${e.target.id}.png`;
 
-        console.log(chosenPlayer);
         player.sprite = chosenPlayer;
 
         document.querySelector('.gameStart').style.display = "none";
     }
 });
 
-document.querySelector('.winner').addEventListener('click', function(){
-        location.reload();
-});
+var resetGame = function(){
+    location.reload();
+}
+
+document.querySelector('.gameOver').addEventListener('click', resetGame);
+
+document.querySelector('.winner').addEventListener('click', resetGame);
 
 var winner = function(){
     document.querySelector('.winner').style.display = "block";
 }
+
