@@ -90,3 +90,6 @@ body {
 .winner {
 	display: none;
 }
+#winnerInitials {
+	display: none;
+}

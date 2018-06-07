@@ -252,6 +252,47 @@ document.querySelector('.gameOver').addEventListener('click', resetGame);
 document.querySelector('.winner').addEventListener('click', resetGame);
 
 var winner = function(){
+    const localScore = localStorage.getItem('highScore');
+    var heartBonus = player.lives * 500;
+    var finalScore = score + heartBonus;
+
+    var initials = "";
+
     document.querySelector('.winner').style.display = "block";
+
+    document.querySelector('#finalStats').innerText = `Game Score: ${score}
+
+    Heart Bonus
+    ${player.lives} x 500: ${heartBonus}
+
+    Total Score: ${finalScore}`;
+
+    if (localScore === null || finalScore < localScore) {
+
+        document.querySelector('#winnerInitials').style.display = "block";
+
+        localStorage.setItem('highScore', finalScore);
+
+
+        document.addEventListener('keyup', function(e){
+
+            if(initials.length < 3){
+            initials += e.key;
+            document.querySelector("#initials").innerText = initials.toUpperCase();
+            }
+            if(initials.length === 3){
+                localStorage.setItem('highScoreInitials', initials.toUpperCase());
+            }
+            console.log(e.key, initials, initials.length);
+
+    });
+    }
+
+
+}
+var checkHighScore = function(newScore){
+
+
+
 }
 
