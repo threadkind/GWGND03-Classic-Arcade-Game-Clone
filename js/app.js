@@ -22,6 +22,23 @@ Enemy.prototype.update = function(dt) {
     if (this.x > 505) {
         this.x = -100;
     }
+    if(this.y === player.y){
+        if (player.x === 0 && this.x < 50 && this.x > -50){
+            player.resetPlayer();
+        };
+        if (player.x === 100 && this.x < 150 && this.x > 50){
+            player.resetPlayer();
+        };
+        if (player.x === 200 && this.x < 250 && this.x > 150){
+            player.resetPlayer();
+        };
+        if (player.x === 300 && this.x < 350 && this.x > 250){
+            player.resetPlayer();
+        };
+        if (player.x === 400 && this.x < 450 && this.x > 350){
+            player.resetPlayer();
+        };
+    };
 };
 
 // Draw the enemy on the screen, required method for game
@@ -74,9 +91,9 @@ Player.prototype.resetPlayer = function() {
 
 var player = new Player();
 
-var enemy1 = new Enemy(-100, 62, 150);
-var enemy2 = new Enemy(-200, 145, 100);
-var enemy3 = new Enemy(-150, 230, 125);
+var enemy1 = new Enemy(-100, 60, 150);
+var enemy2 = new Enemy(-200, 140, 100);
+var enemy3 = new Enemy(-150, 220, 125);
 
 var allEnemies = [enemy1, enemy2, enemy3];
 
