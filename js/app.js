@@ -91,6 +91,12 @@ Player.prototype.handleInput = function(key) {
         this.resetPlayer();
         winner();
     }
+
+    blueGem.collect();
+    greenGem.collect();
+    orangeGem.collect();
+
+
 };
 
 Player.prototype.resetPlayer = function() {
@@ -127,6 +133,42 @@ var Gem =  function(x, y, color, scoreValue){
 Gem.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 60, 90);
 };
+Gem.prototype.collect = function() {
+    var checkX = false;
+    var checkY = false;
+
+    //square 1
+    if(this.x === 20 && player.x === 0) { checkX = true;}
+    //square 2
+    if(this.x === 122 && player.x === 100) { checkX = true;}
+    //square 3
+    if(this.x === 222 && player.x === 200) { checkX = true;}
+    //square 4
+    if(this.x === 325 && player.x === 300) { checkX = true;}
+    //square 5
+    if(this.x === 425 && player.x === 400) { checkX = true;}
+
+    //line 1
+    if(this.y === 280 && player.y === 220) { checkY = true;}
+    //line 2
+    if(this.y === 200 && player.y === 140) { checkY = true;}
+    //line 3
+    if(this.y === 115 && player.y === 60) { checkY = true;}
+
+
+    //check if both x + y are true
+    if(checkX === true && checkY === true) {
+        //play sound
+        document.querySelector('#gemCollect').play();
+
+        //move the gem off screen
+        this.x = -100;
+        //update the score for the value of the gem
+        updateScore(this.scoreValue);
+    }
+    checkX = false;
+    checkY = false;
+}
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -159,7 +201,6 @@ var blueGem = new Gem(gemX[randomNum(5)], 115, 'Blue', 300);
 var greenGem = new Gem(gemX[randomNum(5)], 200, 'Green', 200);
 var orangeGem = new Gem(gemX[randomNum(5)], 280, 'Orange', 100);
 
-console.log(blueGem);
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
