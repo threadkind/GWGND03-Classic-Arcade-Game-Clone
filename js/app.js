@@ -75,13 +75,14 @@ Player.prototype.handleInput = function(key) {
     }
     if(key === 'up' && this.y > -20){
         this.y -= 80;
+        updateScore(10);
+
     }
     if(key === 'down' && this.y < 380){
         this.y += 80;
     }
     if(this.y === -20) {
         this.resetPlayer();
-        console.log('winner!');
         winner();
     }
 };
@@ -114,6 +115,8 @@ Player.prototype.loseLife = function() {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+
+var score = 0;
 
 var lives = 3;
 
@@ -159,6 +162,25 @@ document.querySelector("#characters").addEventListener('click', function(e){
         document.querySelector('.gameStart').style.display = "none";
     }
 });
+
+var updateScore = function(increase){
+    score += increase;
+    var scoreLength = String(score).length;
+
+    if(scoreLength === 1){
+        document.querySelector('#totalScore').innerHTML = `SCORE: 000${score}`;
+    }
+    else if(scoreLength === 2){
+        document.querySelector('#totalScore').innerHTML = `SCORE: 00${score}`;
+    }
+    else if(scoreLength === 3){
+        document.querySelector('#totalScore').innerHTML = `SCORE: 0${score}`;
+    }
+    else {
+        document.querySelector('#totalScore').innerHTML = `SCORE: ${score}`;
+    }
+
+}
 
 var resetGame = function(){
     location.reload();
