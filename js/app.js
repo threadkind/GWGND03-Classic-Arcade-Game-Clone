@@ -173,8 +173,13 @@ Gem.prototype.collect = function() {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-var score = 0;
+var highScore = localStorage.getItem('highScore');
+var highScoreInitials = localStorage.getItem('highScoreInitials');
 
+if (highScore != null){
+    document.querySelector('#highScore').innerText = `HI-SCORE: ${highScore} ${highScoreInitials}`;
+}
+var score = 0;
 
 var line1 = 220;
 var line2 = 140;
@@ -256,6 +261,8 @@ var winner = function(){
     var heartBonus = player.lives * 500;
     var finalScore = score + heartBonus;
 
+    console.log(localScore, finalScore);
+
     var initials = "";
 
     document.querySelector('.winner').style.display = "block";
@@ -267,7 +274,7 @@ var winner = function(){
 
     Total Score: ${finalScore}`;
 
-    if (localScore === null || finalScore < localScore) {
+    if (localScore === null || finalScore > localScore) {
 
         document.querySelector('#winnerInitials').style.display = "block";
 
@@ -276,7 +283,7 @@ var winner = function(){
 
         document.addEventListener('keyup', function(e){
 
-            if(initials.length < 3){
+            if(initials.length < 3 && e.keyCode >= 48 && e.keyCode <= 90){
             initials += e.key;
             document.querySelector("#initials").innerText = initials.toUpperCase();
             }
