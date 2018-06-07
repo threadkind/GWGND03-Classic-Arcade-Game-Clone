@@ -63,7 +63,6 @@ var Player = function() {
     this.lives = 3;
 }
 Player.prototype.update = function() {
-    console.log(player.y);
 };
 
 Player.prototype.render = function() {
@@ -119,7 +118,15 @@ Player.prototype.loseLife = function() {
     document.querySelector('#impact').play();
 };
 
-
+var Gem =  function(x, y, color, scoreValue){
+    this.sprite = `images/Gem-${color}.png`;
+    this.x = x;
+    this.y = y;
+    this.scoreValue = scoreValue;
+}
+Gem.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 60, 90);
+};
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -146,7 +153,13 @@ var enemy6 = new Enemy(randomNum(-500), line3, randomNum(400));
 
 var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6];
 
+var gemX = [20, 122, 222, 325, 425];
 
+var blueGem = new Gem(gemX[randomNum(5)], 115, 'Blue', 300);
+var greenGem = new Gem(gemX[randomNum(5)], 200, 'Green', 200);
+var orangeGem = new Gem(gemX[randomNum(5)], 280, 'Orange', 100);
+
+console.log(blueGem);
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
