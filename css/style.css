@@ -104,3 +104,18 @@ body {
 #gameOverText {
 	font-size: 60px;
 }
+#trophy {
+	font-size: 40px;
+}
+#finalStats {
+	color: var(--white);
+}
+.winnerInitials {
+	color: yellow;
+}
+#initials {
+	color: red;
+}
+.highScoreSaved {
+	color: blue;
+}

@@ -1,5 +1,6 @@
+// E N E M Y    C L A S S ----------------------------------------------
 // Enemies our player must avoid
-var Enemy = function(x, y, speed) {
+const Enemy = function(x, y, speed) {
     // Variables to create enemy bug
     this.sprite = 'images/enemy-bug.png';
     this.x = x;
@@ -51,8 +52,10 @@ Enemy.prototype = {
     }
 }; // End of Enemy prototype
 
+
+// P L A Y E R    C L A S S --------------------------------------------
 // Player class with variables to create player
-var Player = function() {
+const Player = function() {
     this.sprite = 'images/char-boy.png';
     this.x = 200;
     this.y = 380;
@@ -72,7 +75,7 @@ Player.prototype = {
     },
     // Move the player when the arrow keys are pressed - also check to make sure player cannot move outside of the game board
     handleInput: function(key) {
-        var panelsAreClosed = gameBoard.allPanelsClosed();
+        const panelsAreClosed = gameBoard.allPanelsClosed();
 
         // Make sure all panels are closed before moving player
         if (panelsAreClosed) {
@@ -121,32 +124,35 @@ Player.prototype = {
     },
     // Lose a heart and update hearts on board
     loseLife : function() {
-        var lifeContainer = document.querySelector('#lives');
 
+        // Reduce life counter
         this.lives -= 1;
 
+        // Show correct number of hearts in life container
         if(this.lives === 2) {
-            lifeContainer.innerHTML = '<img src="images/Heart.png"><img src="images/Heart.png">';
+            doc.lifeContainer.innerHTML = '<img src="images/Heart.png"><img src="images/Heart.png">';
             this.heartBonus = 1000;
             }
         if(this.lives === 1) {
-            lifeContainer.innerHTML = '<img src="images/Heart.png">';
+            doc.lifeContainer.innerHTML = '<img src="images/Heart.png">';
             this.heartBonus = 500;
         }
         if(this.lives === 0) {
-            lifeContainer.innerHTML = '';
+            doc.lifeContainer.innerHTML = '';
             this.heartBonus = 0;
             // If lives are at 0 then open the Game Over panel
             gameBoard.openPanel('.gameOver');
             }
 
         // Play impact sound when player collides with enemy and loses a heart
-        document.querySelector('#impact').play();
+        doc.impact.play();
         }
 }; // End of Player prototype
 
+
+// G E M    C L A S S --------------------------------------------------
 // Gem class with variables to create gems on game board
-var Gem =  function(x, y, color, scoreValue){
+const Gem =  function(x, y, color, scoreValue){
     this.sprite = `images/Gem-${color}.png`;
     this.x = x;
     this.y = y;
@@ -161,8 +167,8 @@ Gem.prototype = {
     },
     // Collect gems on the board if player collides with them
     collect : function() {
-        var checkX = false;
-        var checkY = false;
+        let checkX = false;
+        let checkY = false;
 
         // Check if player and gems are on the same column
         // // Column 1
@@ -188,7 +194,7 @@ Gem.prototype = {
         // Check if both x + y are true
         if(checkX === true && checkY === true) {
             // If they are play gemCollect sound
-            document.querySelector('#gemCollect').play();
+            doc.gemCollect.play();
 
             // Move the gem off screen
             this.x = -100;
@@ -203,8 +209,10 @@ Gem.prototype = {
         }
 }; // End of Gem prototype
 
+
+// G A M E B O A R D    C L A S S --------------------------------------
 // GameBoard class with variables to create gameboard data
-var GameBoard = function() {
+const GameBoard = function() {
     this.highScore = localStorage.getItem('highScore');
     this.highScoreInitials = localStorage.getItem('highScoreInitials');
     this.score = 0;
@@ -214,16 +222,16 @@ GameBoard.prototype = {
     showHighScore : function() {
         if (this.highScore != null){
             if (this.highScoreInitials != null){
-                document.querySelector('#highScore').innerText = `HI-SCORE: ${this.highScore} ${this.highScoreInitials}`;
+                doc.highScore.innerText = `HI-SCORE: ${this.highScore} ${this.highScoreInitials}`;
             }
             else {
-                document.querySelector('#highScore').innerText = `HI-SCORE: ${this.highScore}`;
+                doc.highScore.innerText = `HI-SCORE: ${this.highScore}`;
             };
         };
     },
     updateScore : function(increase){
         this.score += increase;
-        var scoreLength = String(score).length;
+        const scoreLength = String(score).length;
 
         if(scoreLength === 1){
             document.querySelector('#totalScore').innerHTML = `SCORE: 000${this.score}`;
@@ -248,19 +256,19 @@ GameBoard.prototype = {
         document.querySelector(element).classList.remove('closed')
     },
     winner : function(){
-        var finalScore = gameBoard.score + player.heartBonus;
-        var initials = "";
+        const finalScore = gameBoard.score + player.heartBonus;
+        let initials = "";
 
         // Open the panel that shows player won and game stats
         gameBoard.openPanel('.winner');
 
         // Add game data to panel
-        document.querySelector('#finalStats').innerText = `Game Score: ${gameBoard.score}
+        document.querySelector('#finalStats').innerText = `GAME SCORE: ${gameBoard.score}
 
-        Heart Bonus
+        HEART BONUS
         ${player.lives} x 500: ${player.heartBonus}
 
-        Total Score: ${finalScore}`;
+        YOUR TOTAL SCORE: ${finalScore}`;
 
         // If the local storage high score is null or if this games final score is more than the local store high score...
         if (this.highScore === null || finalScore > this.highScore) {
@@ -273,13 +281,6 @@ GameBoard.prototype = {
 
 
             document.addEventListener('keyup', function(e){
-                if(e.keyCode >= 37 && e.keyCode <= 40) {
-                    player.resetPlayer();
-                    if(e.keyCode === 38) {
-                        gameBoard.updateScore (-20);
-                    }
-                }
-
                 // If the length of the string of initals is less than 3 and the player presses a letter or number...
                 if(initials.length < 3 && e.keyCode >= 48 && e.keyCode <= 90){
                     initials += e.key;
@@ -291,15 +292,18 @@ GameBoard.prototype = {
                 // If the length of the initial string is 3 then set the local storage initials to the string entered
                 if(initials.length === 3){
                     localStorage.setItem('highScoreInitials', initials.toUpperCase());
+                    doc.savedHiScore.innerText = `${initials.toUpperCase()} ${finalScore}`;
+                    gameBoard.closePanel('.winnerInitials');
+                    gameBoard.openPanel('.highScoreSaved');
                 }
             });
         }
     },
     allPanelsClosed : function() {
         // Select all panels
-        var panels = document.querySelectorAll('.panel');
+        const panels = document.querySelectorAll('.panel');
         // Create empty array
-        var panelClosed = [];
+        const panelClosed = [];
         // Check if all of the classlists contain 'closed' and push boolean to panelClosed array
         panels.forEach(function(element){
             panelClosed.push(element.classList.contains('closed'));
@@ -309,32 +313,51 @@ GameBoard.prototype = {
     }
 }; // End of GameBoard prototype
 
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
 
-// var nodeListToArray = function(nodeList) {
-//         var array = [];
-//         for(var i = nodeList.length; i--;) {
-//             array.unshift(nodeList[i]);
-//         }
-//         return array;
-// }
+// O B J E C T S   T O    S T O R E   F U N C T I O N S   &   E L E M E N T S ---
+// Object to store elements from DOM
+const doc = {
+    lifeContainer : document.querySelector('#lives'),
+    impact : document.querySelector('#impact'),
+    gemCollect : document.querySelector('#gemCollect'),
+    highScore : document.querySelector('#highScore'),
+    characters : document.querySelector("#characters"),
+    gameOver : document.querySelector('.gameOver'),
+    winner : document.querySelector('.winner'),
+    rulesClose : document.querySelector('#rulesClose'),
+    rulesClick : document.querySelector('#rulesClick'),
+    savedHiScore : document.querySelector('#savedHiScore')
+}; // End of doc object
 
-
-var funcs = {
+// Object to store functions unrelated to other objects
+const funcs = {
     // Function to generate a random number
     randomNum : function(Num) {
         return Math.floor(Math.random()*Num);
     }
 }; // End of funcs object
 
-var eventHandlers = {
+// Object to store event handlers
+const eventHandlers = {
+    // This listens for key presses and sends the keys to your Player.handleInput() method. You don't need to modify this.
+    keyPress : function(){
+        document.addEventListener('keyup', function(e) {
+            const allowedKeys = {
+                37: 'left',
+                38: 'up',
+                39: 'right',
+                40: 'down'
+            };
+
+            player.handleInput(allowedKeys[e.keyCode]);
+        });
+
+    },
     startGame : function() {
         // Check which character the player has chosen and store it in the player.sprite
-        document.querySelector("#characters").addEventListener('click', function(e){
+        doc.characters.addEventListener('click', function(e){
             if(e.target.id != "characters") {
-            var chosenPlayer =  `images/${e.target.id}.png`;
+            const chosenPlayer =  `images/${e.target.id}.png`;
 
             player.sprite = chosenPlayer;
             // Close the character panel
@@ -343,64 +366,73 @@ var eventHandlers = {
         });
     },
     gameOver : function() {
-        document.querySelector('.gameOver').addEventListener('click', gameBoard.resetGame);
+        doc.gameOver.addEventListener('click', gameBoard.resetGame);
     },
     winner : function() {
-        document.querySelector('.winner').addEventListener('click', gameBoard.resetGame);
+        doc.winner.addEventListener('click', gameBoard.resetGame);
     },
     rulesClose : function() {
-        document.querySelector('#rulesClose').addEventListener('click', function(){
+        doc.rulesClose.addEventListener('click', function(){
         gameBoard.closePanel('.rules');
         });
     },
     rulesClick : function() {
-        document.querySelector('#rulesClick').addEventListener('click', function(){gameBoard.openPanel('.rules');
+        doc.rulesClick.addEventListener('click', function(){gameBoard.openPanel('.rules');
         });
     }
 }; // End of event handlers object
 
+
+
+
+// --------------------------------------------------------------------------------------
+// C R E A T E   O B J E C T S   &   C A L L    F U N C T I O N S   T O   R U N   G A M E
+// --------------------------------------------------------------------------------------
+
+// Now instantiate your objects.
+// Place all enemy objects in an array called allEnemies
+// Place the player object in a variable called player
+
+
+// G A M E B O A R D   D A T A --------------------------------------------------
 // Create data for the game board
-var gameBoard = new GameBoard();
+const gameBoard = new GameBoard();
 gameBoard.showHighScore();
 
-// Create a player
-var player = new Player();
-
+// E N E M I E S ----------------------------------------------------------------
 // Create enemies with randomly generated start points and randomly generated speeds
-var enemy1 = new Enemy(funcs.randomNum(-500), 220, funcs.randomNum(400));
-var enemy2 = new Enemy(funcs.randomNum(-500), 140, funcs.randomNum(400));
-var enemy3 = new Enemy(funcs.randomNum(-500), 60, funcs.randomNum(400));
-var enemy4 = new Enemy(funcs.randomNum(-500), 220, funcs.randomNum(400));
-var enemy5 = new Enemy(funcs.randomNum(-500), 140, funcs.randomNum(400));
-var enemy6 = new Enemy(funcs.randomNum(-500), 60, funcs.randomNum(400));
+const enemy1 = new Enemy(funcs.randomNum(-500), 220, funcs.randomNum(400));
+const enemy2 = new Enemy(funcs.randomNum(-500), 140, funcs.randomNum(400));
+const enemy3 = new Enemy(funcs.randomNum(-500), 60, funcs.randomNum(400));
+const enemy4 = new Enemy(funcs.randomNum(-500), 220, funcs.randomNum(400));
+const enemy5 = new Enemy(funcs.randomNum(-500), 140, funcs.randomNum(400));
+const enemy6 = new Enemy(funcs.randomNum(-500), 60, funcs.randomNum(400));
 
 // Array to hold enemies
-var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6];
+const allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6];
 
+
+// P L A Y E R -------------------------------------------------------------------
+// Create a player
+const player = new Player();
+
+
+// G E M S -----------------------------------------------------------------------
 // Possible x positions for gems
-var gemX = [20, 122, 222, 325, 425];
+const gemX = [20, 122, 222, 325, 425];
 
 // Create gems with randomly generated x positions - blue on the top line, green on the middle line and orange on the bottom line
-var blueGem = new Gem(gemX[funcs.randomNum(5)], 115, 'Blue', 300);
-var greenGem = new Gem(gemX[funcs.randomNum(5)], 200, 'Green', 200);
-var orangeGem = new Gem(gemX[funcs.randomNum(5)], 280, 'Orange', 100);
+const blueGem = new Gem(gemX[funcs.randomNum(5)], 115, 'Blue', 300);
+const greenGem = new Gem(gemX[funcs.randomNum(5)], 200, 'Green', 200);
+const orangeGem = new Gem(gemX[funcs.randomNum(5)], 280, 'Orange', 100);
 
 // Array to hold gems
-var gems = [blueGem, greenGem, orangeGem];
+const gems = [blueGem, greenGem, orangeGem];
 
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
-document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
-        37: 'left',
-        38: 'up',
-        39: 'right',
-        40: 'down'
-    };
-
-    player.handleInput(allowedKeys[e.keyCode]);
-});
+// E V E N T   H A N D L E R S ---------------------------------------------------
+// Call event handlers
+eventHandlers.keyPress();
 
 eventHandlers.startGame();
 eventHandlers.gameOver();
