@@ -101,15 +101,6 @@ body {
 .closed {
 	display: none;
 }
-.gameOver {
-	display: none;
-}
 #gameOverText {
 	font-size: 60px;
-}
-.winner {
-	display: none;
-}
-#winnerInitials {
-	display: none;
 }
