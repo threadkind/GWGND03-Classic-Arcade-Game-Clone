@@ -49,6 +49,8 @@ The game uses [Google Font: Press Start 2P](https://fonts.google.com/specimen/Pr
 
 [Autoprefixer](https://autoprefixer.github.io/) was used to add prefixes to the CSS.
 
+The game engine, basic code and images were provided by Udacity as part of the Grow With Google Nanodegree program.
+
 
 ## Author
 - Amy W
