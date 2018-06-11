@@ -39,7 +39,7 @@ If you lose all of your lives in the game it is game over! A panel will show ove
 If you make your way to the top of the game board and reach the water with at least 1 life left a panel will appear to tell you that you have won the game. It will show you your score for the game and give you a bonus of 500 points for each heart you have left in the life bar. It will also display the total score.
 Just like the game over panel, the winner panel also has a section that you can click to play again. On this panel you must click on the "Click to Play Again" paragraph to reset the game rather than anywhere on the panel (as you are able to do on the 'Game Over' panel).
 
-If there is no high score in local storage, or you have beaten the current high score, you will be prompted to type in your initials. Once you have typed 3 characters, the screen will show a message saying that the high score has been saved. This pushes your score to the local storage, which will be loaded in the game stat bar at the top of the game board next time you play.
+If there is no high score in local storage, or you have beaten the current high score, you will be prompted to type in your initials. Once you have typed 3 characters (or if you type less and press enter), the screen will show a message saying that the high score has been saved. This pushes your score to the local storage, which will be loaded in the game stat bar at the top of the game board next time you play.
 
 
 ## Dependancies

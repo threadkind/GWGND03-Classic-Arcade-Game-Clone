@@ -289,8 +289,8 @@ GameBoard.prototype = {
                     document.querySelector("#initials").innerText = initials.toUpperCase();
                 }
 
-                // If the length of the initial string is 3 then set the local storage initials to the string entered
-                if(initials.length === 3){
+                // If the length of the initial string is 3 or enter is pressed then set the local storage initials to the string entered
+                if(initials.length === 3 || e.keyCode === 13 ){
                     localStorage.setItem('highScoreInitials', initials.toUpperCase());
                     doc.savedHiScore.innerText = `${initials.toUpperCase()} ${finalScore}`;
                     gameBoard.closePanel('.winner-initials');
