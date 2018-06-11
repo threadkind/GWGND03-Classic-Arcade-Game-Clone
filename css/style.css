@@ -108,7 +108,7 @@ body {
 
 
 /* Rule Styles */
-#rulesClick {
+#rules-click {
 	cursor: pointer;
 }
 
@@ -119,6 +119,10 @@ body {
 
 
 /* Game Over Styles */
+.game-over {
+	cursor: pointer;
+}
+
 #game-over-text {
 	font-size: 60px;
 }
@@ -127,6 +131,8 @@ body {
 	font-size: 40px;
 }
 
+
+/* Winner Styles */
 .winner-initials {
 	color: yellow;
 }
@@ -141,6 +147,10 @@ body {
 
 #final-stats {
 	color: var(--white);
+}
+
+#play-again {
+	cursor: pointer;
 }
 
 

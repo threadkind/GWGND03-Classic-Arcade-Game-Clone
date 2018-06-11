@@ -328,7 +328,8 @@ const doc = {
     rulesClick : document.querySelector('#rules-click'),
     savedHiScore : document.querySelector('#saved-hi-score'),
     totalScore : document.querySelector('#total-score'),
-    finalStats : document.querySelector('#final-stats')
+    finalStats : document.querySelector('#final-stats'),
+    playAgain : document.querySelector('#play-again')
 }; // End of doc object
 
 // Object to store functions unrelated to other objects
@@ -371,7 +372,7 @@ const eventHandlers = {
         doc.gameOver.addEventListener('click', gameBoard.resetGame);
     },
     winner : function() {
-        doc.winner.addEventListener('click', gameBoard.resetGame);
+        doc.playAgain.addEventListener('click', gameBoard.resetGame);
     },
     rulesClose : function() {
         doc.rulesClose.addEventListener('click', function(){
