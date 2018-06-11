@@ -259,6 +259,9 @@ GameBoard.prototype = {
         const finalScore = gameBoard.score + player.heartBonus;
         let initials = "";
 
+        // Set the initials section on the panel to the digits entered and change them to uppercase
+        const setInitials = () => doc.initials.innerText = initials.toUpperCase();
+
         // Open the panel that shows player won and game stats
         gameBoard.openPanel('.winner');
 
@@ -274,7 +277,7 @@ GameBoard.prototype = {
         if (this.highScore === null || finalScore > this.highScore) {
 
             // Display the panel to have player enter their initials
-            gameBoard.openPanel('.winner-initials');
+            this.openPanel('.winner-initials');
 
             // Set the local storage with the new high score
             localStorage.setItem('highScore', finalScore);
@@ -285,8 +288,14 @@ GameBoard.prototype = {
                 if(initials.length < 3 && e.keyCode >= 48 && e.keyCode <= 90){
                     initials += e.key;
 
-                    // Set the initials section on the panel to the digits entered and change them to uppercase
-                    document.querySelector("#initials").innerText = initials.toUpperCase();
+                    setInitials();
+                }
+
+                // Add ability to delete letters from initials if necessary
+                if(initials.length >= 1 && e.keyCode === 8) {
+                    initials = initials.slice(0, -1);
+
+                    setInitials();
                 }
 
                 // If the length of the initial string is 3 or enter is pressed then set the local storage initials to the string entered
@@ -329,7 +338,8 @@ const doc = {
     savedHiScore : document.querySelector('#saved-hi-score'),
     totalScore : document.querySelector('#total-score'),
     finalStats : document.querySelector('#final-stats'),
-    playAgain : document.querySelector('#play-again')
+    playAgain : document.querySelector('#play-again'),
+    initials : document.querySelector('#initials')
 }; // End of doc object
 
 // Object to store functions unrelated to other objects
