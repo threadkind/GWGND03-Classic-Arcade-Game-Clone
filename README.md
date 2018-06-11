@@ -29,7 +29,7 @@ When a gem is collected the will be a sound and the gem will move from the game 
 
 The ladybug enemys also get added to the game board when the page is loaded and they are assigned random speeds. There will be 2 enemies on each of the 3 stone rows, giving 6 enemies in total.
 
-Use the arrow keys to move your character up, down, left and right.
+Use the arrow keys to move your character up, down, left and right. The game will not allow you to move outside of the game board.
 For each row you climb on the game board you will earn 20 points. The game keeps track of the highest point you have reached on the game board and you only get another 20 points when you reach a higher row than previously reached.
 
 Make sure to avoid the bugs as you move your character up the game board. If you do collide with a bug, a sound will play, your character will be reset back to the starting position and you will lose a life. The life bar at the top of the game board will decrease by one heart for each collision.
