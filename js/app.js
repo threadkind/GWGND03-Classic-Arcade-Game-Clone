@@ -141,7 +141,7 @@ Player.prototype = {
             doc.lifeContainer.innerHTML = '';
             this.heartBonus = 0;
             // If lives are at 0 then open the Game Over panel
-            gameBoard.openPanel('.gameOver');
+            gameBoard.openPanel('.game-over');
             }
 
         // Play impact sound when player collides with enemy and loses a heart
@@ -234,16 +234,16 @@ GameBoard.prototype = {
         const scoreLength = String(score).length;
 
         if(scoreLength === 1){
-            document.querySelector('#totalScore').innerHTML = `SCORE: 000${this.score}`;
+            doc.totalScore.innerHTML = `SCORE: 000${this.score}`;
         }
         else if(scoreLength === 2){
-            document.querySelector('#totalScore').innerHTML = `SCORE: 00${this.score}`;
+            doc.totalScore.innerHTML = `SCORE: 00${this.score}`;
         }
         else if(scoreLength === 3){
-            document.querySelector('#totalScore').innerHTML = `SCORE: 0${this.score}`;
+            doc.totalScore.innerHTML = `SCORE: 0${this.score}`;
         }
         else {
-            document.querySelector('#totalScore').innerHTML = `SCORE: ${this.score}`;
+            doc.totalScore.innerHTML = `SCORE: ${this.score}`;
         };
     },
     resetGame : function() {
@@ -263,7 +263,7 @@ GameBoard.prototype = {
         gameBoard.openPanel('.winner');
 
         // Add game data to panel
-        document.querySelector('#finalStats').innerText = `GAME SCORE: ${gameBoard.score}
+        doc.finalStats.innerText = `GAME SCORE: ${gameBoard.score}
 
         HEART BONUS
         ${player.lives} x 500: ${player.heartBonus}
@@ -274,7 +274,7 @@ GameBoard.prototype = {
         if (this.highScore === null || finalScore > this.highScore) {
 
             // Display the panel to have player enter their initials
-            gameBoard.openPanel('.winnerInitials');
+            gameBoard.openPanel('.winner-initials');
 
             // Set the local storage with the new high score
             localStorage.setItem('highScore', finalScore);
@@ -293,8 +293,8 @@ GameBoard.prototype = {
                 if(initials.length === 3){
                     localStorage.setItem('highScoreInitials', initials.toUpperCase());
                     doc.savedHiScore.innerText = `${initials.toUpperCase()} ${finalScore}`;
-                    gameBoard.closePanel('.winnerInitials');
-                    gameBoard.openPanel('.highScoreSaved');
+                    gameBoard.closePanel('.winner-initials');
+                    gameBoard.openPanel('.high-score-saved');
                 }
             });
         }
@@ -319,14 +319,16 @@ GameBoard.prototype = {
 const doc = {
     lifeContainer : document.querySelector('#lives'),
     impact : document.querySelector('#impact'),
-    gemCollect : document.querySelector('#gemCollect'),
-    highScore : document.querySelector('#highScore'),
+    gemCollect : document.querySelector('#gem-collect'),
+    highScore : document.querySelector('#high-score'),
     characters : document.querySelector("#characters"),
-    gameOver : document.querySelector('.gameOver'),
+    gameOver : document.querySelector('.game-over'),
     winner : document.querySelector('.winner'),
-    rulesClose : document.querySelector('#rulesClose'),
-    rulesClick : document.querySelector('#rulesClick'),
-    savedHiScore : document.querySelector('#savedHiScore')
+    rulesClose : document.querySelector('#rules-close'),
+    rulesClick : document.querySelector('#rules-click'),
+    savedHiScore : document.querySelector('#saved-hi-score'),
+    totalScore : document.querySelector('#total-score'),
+    finalStats : document.querySelector('#final-stats')
 }; // End of doc object
 
 // Object to store functions unrelated to other objects
@@ -361,7 +363,7 @@ const eventHandlers = {
 
             player.sprite = chosenPlayer;
             // Close the character panel
-            gameBoard.closePanel('.gameStart');
+            gameBoard.closePanel('.game-start');
             }
         });
     },

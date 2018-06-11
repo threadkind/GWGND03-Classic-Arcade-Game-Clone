@@ -8,9 +8,9 @@
 </head>
 <body>
 	<div id="game-stats">
-		<p id="highScore">HI-SCORE: 0000</p>
+		<p id="high-score">HI-SCORE: 0000</p>
 		<div id="score">
-			<p id="totalScore">SCORE: 0000</p>
+			<p id="total-score">SCORE: 0000</p>
 		</div>
 		<div id="lives">
 			<img src="images/Heart.png">
@@ -19,7 +19,7 @@
 		</div>
 	</div>
 
-	<div class="panel gameStart">
+	<div class="panel game-start">
 		<p>CHOOSE A PLAYER TO START</p>
 		<div id="characters">
 			<div id="char-boy"></div>
@@ -28,11 +28,11 @@
 			<div id="char-pink-girl"></div>
 			<div id="char-princess-girl"></div>
 		</div>
-		<p id="rulesClick">RULES</p>
+		<p id="rules-click">RULES</p>
 	</div>
 
  	<div class="panel rules closed">
- 		<p>HOW TO PLAY<span id="rulesClose">X</span></p>
+ 		<p>HOW TO PLAY<span id="rules-close">X</span></p>
  		<p>USE THE ARROW KEYS TO MOVE YOUR CHARACTER AROUND THE GAME BOARD.<br><br>
  		THE OBJECT IS TO TRY TO GET YOUR CHARACTER SAFELY TO THE WATER AT THE TOP OF THE BOARD.<br><br>
  		AVOID THE BUGS, OTHERWISE YOUR PLAYER WILL BE RESET TO THE BOTTOM OF THE SCREEN AND YOU WILL LOSE A HEART.<br><br>
@@ -44,24 +44,24 @@
  		</p>
  	</div>
 
- 	<div class="panel gameOver closed">
- 		<p id="gameOverText">🐞🐞🐞<br> GAME OVER</p>
+ 	<div class="panel game-over closed">
+ 		<p id="game-over-text">🐞🐞🐞<br> GAME OVER</p>
  		<p>CLICK TO PLAY AGAIN</p>
  	</div>
 
  	<div class="panel winner closed">
  		<p id="trophy">🏆</p>
  		<p>PLAYER ONE WINS!</p>
- 		<p class="winnerInitials closed">
+ 		<p class="winner-initials closed">
  			NEW HIGH SCORE!<br>
  			TYPE YOUR INITIALS <br>.<span id="initials"></span>.
  		</p>
- 		<p class="highScoreSaved closed">HIGH SCORE SAVED!!
+ 		<p class="high-score-saved closed">HIGH SCORE SAVED!!
  			<br><br>
- 			<span id="savedHiScore"></span>
+ 			<span id="saved-hi-score"></span>
  		</p>
  		<br>
- 		<p id="finalStats"></p>
+ 		<p id="final-stats"></p>
  		<br>
  		<br>
  		<p>CLICK TO PLAY AGAIN</p>
@@ -71,7 +71,7 @@
 	  <source src="sounds/impact.mp3" type="audio/mpeg">
 	  Your browser does not support the audio element.
 	</audio>
-	<audio id="gemCollect">
+	<audio id="gem-collect">
 	  <source src="sounds/gem-collect.mp3" type="audio/mpeg">
 	  Your browser does not support the audio element.
 	</audio>
