@@ -1,3 +1,5 @@
+"use strict";
+
 // E N E M Y    C L A S S ----------------------------------------------
 // Enemies our player must avoid
 const Enemy = function(x, y, speed) {
@@ -9,10 +11,9 @@ const Enemy = function(x, y, speed) {
     };
 
 // Prototypes for Enemy
-Enemy.prototype = {
-    // Update the enemy's position, required method for game
-    // Parameter: dt, a time delta between ticks
-    update : function(dt) {
+// Update the enemy's position, required method for game
+// Parameter: dt, a time delta between ticks
+Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter which will ensure the game runs at the same speed for all computers.
     this.x += dt * this.speed;
 
@@ -20,37 +21,41 @@ Enemy.prototype = {
     this.resetEnemy();
     // Check for a collision with the player
     this.checkForCollision();
-    },
-    // Reset enemy back to start position
-    resetEnemy : function(){
-        // When the ememy gets to the end of the screen reset back to the beginning
-        if (this.x > 505) {
-        this.x = -100;
-        }
-    },
-    // Check the x position of the enemy and the player...
-    checkPositionX : function(playerX, xLessThan, xGreaterThan) {
-        if (player.x === playerX && this.x < xLessThan && this.x > xGreaterThan){
-            // If the player and the bug collide, reset the player and lose a life
-            player.resetPlayer();
-            player.loseLife();
-        };
-    },
-    checkForCollision : function() {
-    // If the enemy is on the same line as the player...
-        if(this.y === player.y){
-            // Check if the player is in the same column also using checkPositionX
-            for(let i = 0; i <= 4; i++){
-                const x100 = i *100
-                this.checkPositionX(x100, x100+50, x100-50 );
-            }
-        };
-    },
-    // Draw the enemy on the screen, required method for game
-    render: function() {
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    };
+
+// Reset enemy back to start position
+Enemy.prototype.resetEnemy = function(){
+    // When the ememy gets to the end of the screen reset back to the beginning
+    if (this.x > 505) {
+    this.x = -100;
     }
-}; // End of Enemy prototype
+};
+
+// Check the x position of the enemy and the player...
+Enemy.prototype.checkPositionX = function(playerX, xLessThan, xGreaterThan) {
+    if (player.x === playerX && this.x < xLessThan && this.x > xGreaterThan){
+        // If the player and the bug collide, reset the player and lose a life
+        player.resetPlayer();
+        player.loseLife();
+        };
+};
+
+Enemy.prototype.checkForCollision = function() {
+    // If the enemy is on the same line as the player...
+    if(this.y === player.y){
+        // Check if the player is in the same column also using checkPositionX
+        for(let i = 0; i <= 4; i++){
+            const x100 = i *100;
+            this.checkPositionX(x100, x100+50, x100-50 );
+        }
+    };
+};
+
+// Draw the enemy on the screen, required method for game
+Enemy.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+// End of Enemy prototype
 
 
 // P L A Y E R    C L A S S --------------------------------------------
@@ -62,92 +67,98 @@ const Player = function() {
     this.highestPoint = 380;
     this.lives = 3;
     this.heartBonus = this.lives * 500;
+    this.northWalkPoints = 20;
 };
 
 //Prototypes for Player
-Player.prototype = {
-    // Update the players's position, required method for game
-    update : function() {
-    },
-    // Draw player
-    render : function() {
+// Update the players's position, required method for game
+Player.prototype.update = function() {
+};
+
+// Draw player
+Player.prototype.render = function() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    },
-    // Move the player when the arrow keys are pressed - also check to make sure player cannot move outside of the game board
-    handleInput: function(key) {
-        const panelsAreClosed = gameBoard.allPanelsClosed();
+};
 
-        // Make sure all panels are closed before moving player
-        if (panelsAreClosed) {
-            if(key === 'left' && this.x > 0){
-                this.x -= 100;
-            };
-            if(key === 'right' && this.x < 400){
-                this.x += 100;
-            };
-            if(key === 'up' && this.y > -20){
-                this.y -= 80;
-                // Check to see if this is the highest point the player has reached this life
-                this.highPointIncrease();
-                // Check to see if player has got to the water and won the game
-                this.win();
-            };
-            if(key === 'down' && this.y < 380){
-                this.y += 80;
-            };
+// Move the player when the arrow keys are pressed - also check to make sure player cannot move outside of the game board
+Player.prototype.handleInput = function(key) {
+    const panelsAreClosed = gameBoard.allPanelsClosed();
 
-            // Check to see if any gems need to be collected on the position the player has moved to
-            for (let i = 0; i < gems.length; i++){
-                gems[i].collect();
-            };
+    // Make sure all panels are closed before moving player
+    if (panelsAreClosed) {
+        if(key === 'left' && this.x > 0){
+            this.x -= 100;
         };
-    },
-    // Check for highest point reached by player on board and if player is now at higher point than previously, increase score by 20 points
-    highPointIncrease : function() {
-        if(this.highestPoint > this.y){
-            this.highestPoint = this.y;
-            gameBoard.updateScore(20);
-        }
-    },
-    // Check if player has won game, if so: resetPlayer and show winner panel
-    win : function() {
-        if(this.y === -20) {
-            this.resetPlayer();
-            gameBoard.winner();
-        }
-    },
-    // Reset player back to start
-    resetPlayer : function() {
+        if(key === 'right' && this.x < 400){
+            this.x += 100;
+        };
+        if(key === 'up' && this.y > -20){
+            this.y -= 80;
+            // Check to see if this is the highest point the player has reached this life
+            this.highPointIncrease();
+            // Check to see if player has got to the water and won the game
+            this.win();
+        };
+        if(key === 'down' && this.y < 380){
+            this.y += 80;
+        };
+
+        // Check to see if any gems need to be collected on the position the player has moved to
+        for (let i = 0; i < gems.length; i++){
+            gems[i].collect();
+        };
+    };
+};
+
+// Check for highest point reached by player on board and if player is now at higher point than previously, increase score by 20 points
+Player.prototype.highPointIncrease = function() {
+    if(this.highestPoint > this.y){
+        this.highestPoint = this.y;
+        gameBoard.updateScore(this.northWalkPoints);
+    }
+};
+
+// Check if player has won game, if so: resetPlayer and show winner panel
+Player.prototype.win = function() {
+    if(this.y === -20) {
+        this.resetPlayer();
+        gameBoard.winner();
+    }
+};
+
+// Reset player back to start
+Player.prototype.resetPlayer = function() {
     this.x = 200;
     this.y = 380;
     this.highestPoint = 380;
-    },
-    // Lose a heart and update hearts on board
-    loseLife : function() {
+};
 
-        // Reduce life counter
-        this.lives -= 1;
+// Lose a heart and update hearts on board
+Player.prototype.loseLife = function() {
 
-        // Show correct number of hearts in life container
-        if(this.lives === 2) {
-            doc.lifeContainer.innerHTML = '<img src="images/Heart.png"><img src="images/Heart.png">';
-            this.heartBonus = 1000;
-            }
-        if(this.lives === 1) {
-            doc.lifeContainer.innerHTML = '<img src="images/Heart.png">';
-            this.heartBonus = 500;
-        }
-        if(this.lives === 0) {
-            doc.lifeContainer.innerHTML = '';
-            this.heartBonus = 0;
-            // If lives are at 0 then open the Game Over panel
-            gameBoard.openPanel('.game-over');
-            }
+    // Reduce life counter
+    this.lives -= 1;
 
-        // Play impact sound when player collides with enemy and loses a heart
-        doc.impact.play();
-        }
-}; // End of Player prototype
+    // Show correct number of hearts in life container
+    if(this.lives === 2) {
+        doc.lifeContainer.innerHTML = '<img src="images/Heart.png"><img src="images/Heart.png">';
+        this.heartBonus = 1000;
+    };
+    if(this.lives === 1) {
+        doc.lifeContainer.innerHTML = '<img src="images/Heart.png">';
+        this.heartBonus = 500;
+    };
+    if(this.lives === 0) {
+        doc.lifeContainer.innerHTML = '';
+        this.heartBonus = 0;
+        // If lives are at 0 then open the Game Over panel
+        gameBoard.openPanel('.game-over');
+    };
+
+    // Play impact sound when player collides with enemy and loses a heart
+    doc.impact.play();
+};
+// End of Player prototype
 
 
 // G E M    C L A S S --------------------------------------------------
@@ -160,54 +171,54 @@ const Gem =  function(x, y, color, scoreValue){
 };
 
 // Prototypes for Gem
-Gem.prototype = {
-    // Draw gems on the board
-    render : function() {
+// Draw gems on the board
+Gem.prototype.render = function() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 60, 90);
-    },
-    // Collect gems on the board if player collides with them
-    collect : function() {
-        let checkX = false;
-        let checkY = false;
+    };
 
-        // Check if player and gems are on the same column
-        // // Column 1
-        if(this.x === 20 && player.x === 0) { checkX = true;}
-        // Column 2
-        if(this.x === 122 && player.x === 100) { checkX = true;}
-        // Column 3
-        if(this.x === 222 && player.x === 200) { checkX = true;}
-        // Column 4
-        if(this.x === 325 && player.x === 300) { checkX = true;}
-        // Column 5
-        if(this.x === 425 && player.x === 400) { checkX = true;}
+// Collect gems on the board if player collides with them
+Gem.prototype.collect = function() {
+    let checkX = false;
+    let checkY = false;
 
-        // Check if player and gems are on the same row
-        // Row 1
-        if(this.y === 280 && player.y === 220) { checkY = true;}
-        // Row 2
-        if(this.y === 200 && player.y === 140) { checkY = true;}
-        // Row 3
-        if(this.y === 115 && player.y === 60) { checkY = true;}
+    // Check if player and gems are on the same column
+    // // Column 1
+    if(this.x === 20 && player.x === 0) { checkX = true;}
+    // Column 2
+    if(this.x === 122 && player.x === 100) { checkX = true;}
+    // Column 3
+    if(this.x === 222 && player.x === 200) { checkX = true;}
+    // Column 4
+    if(this.x === 325 && player.x === 300) { checkX = true;}
+    // Column 5
+    if(this.x === 425 && player.x === 400) { checkX = true;}
+
+    // Check if player and gems are on the same row
+    // Row 1
+    if(this.y === 280 && player.y === 220) { checkY = true;}
+    // Row 2
+    if(this.y === 200 && player.y === 140) { checkY = true;}
+    // Row 3
+    if(this.y === 115 && player.y === 60) { checkY = true;}
 
 
-        // Check if both x + y are true
-        if(checkX === true && checkY === true) {
-            // If they are play gemCollect sound
-            doc.gemCollect.play();
+    // Check if both x + y are true
+    if(checkX === true && checkY === true) {
+        // If they are play gemCollect sound
+        doc.gemCollect.play();
 
-            // Move the gem off screen
-            this.x = -100;
+        // Move the gem off screen
+        this.x = -100;
 
-            // Update the score for the value of the gem
-            gameBoard.updateScore(this.scoreValue);
-            }
+        // Update the score for the value of the gem
+        gameBoard.updateScore(this.scoreValue);
+    };
 
-        // Reset values of checkX and checkY
-        checkX = false;
-        checkY = false;
-        }
-}; // End of Gem prototype
+    // Reset values of checkX and checkY
+    checkX = false;
+    checkY = false;
+};
+// End of Gem prototype
 
 
 // G A M E B O A R D    C L A S S --------------------------------------
@@ -218,109 +229,115 @@ const GameBoard = function() {
     this.score = 0;
 };
 
-GameBoard.prototype = {
-    showHighScore : function() {
-        if (this.highScore != null){
-            if (this.highScoreInitials != null){
-                doc.highScore.innerText = `HI-SCORE: ${this.highScore} ${this.highScoreInitials}`;
-            }
-            else {
-                doc.highScore.innerText = `HI-SCORE: ${this.highScore}`;
-            };
-        };
-    },
-    updateScore : function(increase){
-        this.score += increase;
-        const scoreLength = String(score).length;
-
-        if(scoreLength === 1){
-            doc.totalScore.innerHTML = `SCORE: 000${this.score}`;
-        }
-        else if(scoreLength === 2){
-            doc.totalScore.innerHTML = `SCORE: 00${this.score}`;
-        }
-        else if(scoreLength === 3){
-            doc.totalScore.innerHTML = `SCORE: 0${this.score}`;
+//Prototypes for GameBoard
+GameBoard.prototype.showHighScore = function() {
+    if (this.highScore != null){
+        if (this.highScoreInitials != null){
+            doc.highScore.innerText = `HI-SCORE: ${this.highScore} ${this.highScoreInitials}`;
         }
         else {
-            doc.totalScore.innerHTML = `SCORE: ${this.score}`;
+            doc.highScore.innerText = `HI-SCORE: ${this.highScore}`;
         };
-    },
-    resetGame : function() {
-    location.reload();
-    },
-    closePanel : function(element) {
-        document.querySelector(element).classList.add('closed');
-    },
-    openPanel : function(element) {
-        document.querySelector(element).classList.remove('closed')
-    },
-    winner : function(){
-        const finalScore = gameBoard.score + player.heartBonus;
-        let initials = "";
+    };
+};
 
-        // Set the initials section on the panel to the digits entered and change them to uppercase
-        const setInitials = () => doc.initials.innerText = initials.toUpperCase();
+GameBoard.prototype.updateScore = function(increase){
+    this.score += increase;
+    const scoreLength = String(score).length;
 
-        // Open the panel that shows player won and game stats
-        gameBoard.openPanel('.winner');
-
-        // Add game data to panel
-        doc.finalStats.innerText = `GAME SCORE: ${gameBoard.score}
-
-        HEART BONUS
-        ${player.lives} x 500: ${player.heartBonus}
-
-        YOUR TOTAL SCORE: ${finalScore}`;
-
-        // If the local storage high score is null or if this games final score is more than the local store high score...
-        if (this.highScore === null || finalScore > this.highScore) {
-
-            // Display the panel to have player enter their initials
-            this.openPanel('.winner-initials');
-
-            // Set the local storage with the new high score
-            localStorage.setItem('highScore', finalScore);
-
-
-            document.addEventListener('keyup', function(e){
-                // If the length of the string of initals is less than 3 and the player presses a letter or number...
-                if(initials.length < 3 && e.keyCode >= 48 && e.keyCode <= 90){
-                    initials += e.key;
-
-                    setInitials();
-                }
-
-                // Add ability to delete letters from initials if necessary
-                if(initials.length >= 1 && e.keyCode === 8) {
-                    initials = initials.slice(0, -1);
-
-                    setInitials();
-                }
-
-                // If the length of the initial string is 3 or enter is pressed then set the local storage initials to the string entered
-                if(initials.length === 3 || e.keyCode === 13 ){
-                    localStorage.setItem('highScoreInitials', initials.toUpperCase());
-                    doc.savedHiScore.innerText = `${initials.toUpperCase()} ${finalScore}`;
-                    gameBoard.closePanel('.winner-initials');
-                    gameBoard.openPanel('.high-score-saved');
-                }
-            });
-        }
-    },
-    allPanelsClosed : function() {
-        // Select all panels
-        const panels = document.querySelectorAll('.panel');
-        // Create empty array
-        const panelClosed = [];
-        // Check if all of the classlists contain 'closed' and push boolean to panelClosed array
-        panels.forEach(function(element){
-            panelClosed.push(element.classList.contains('closed'));
-        });
-        // Return true if all panels are closed and false if any are open
-        return panelClosed.includes(false) === false;
+    if(scoreLength === 1){
+        doc.totalScore.innerHTML = `SCORE: 000${this.score}`;
     }
-}; // End of GameBoard prototype
+    else if(scoreLength === 2){
+        doc.totalScore.innerHTML = `SCORE: 00${this.score}`;
+    }
+    else if(scoreLength === 3){
+            doc.totalScore.innerHTML = `SCORE: 0${this.score}`;
+    }
+    else {
+        doc.totalScore.innerHTML = `SCORE: ${this.score}`;
+    };
+};
+
+GameBoard.prototype.resetGame = function() {
+    location.reload();
+};
+
+GameBoard.prototype.closePanel = function(element) {
+    document.querySelector(element).classList.add('closed');
+};
+
+GameBoard.prototype.openPanel = function(element) {
+    document.querySelector(element).classList.remove('closed')
+};
+
+GameBoard.prototype.winner = function(){
+    const finalScore = gameBoard.score + player.heartBonus;
+    let initials = '';
+
+    // Set the initials section on the panel to the digits entered and change them to uppercase
+    const setInitials = () => doc.initials.innerText = initials.toUpperCase();
+
+    // Open the panel that shows player won and game stats
+    gameBoard.openPanel('.winner');
+
+    // Add game data to panel
+    doc.finalStats.innerText = `GAME SCORE: ${gameBoard.score}
+
+    HEART BONUS
+    ${player.lives} x 500: ${player.heartBonus}
+
+    YOUR TOTAL SCORE: ${finalScore}`;
+
+    // If the local storage high score is null or if this games final score is more than the local store high score...
+    if (this.highScore === null || finalScore > this.highScore) {
+
+        // Display the panel to have player enter their initials
+        this.openPanel('.winner-initials');
+
+        // Set the local storage with the new high score
+        localStorage.setItem('highScore', finalScore);
+
+
+        document.addEventListener('keyup', function(e){
+            // If the length of the string of initals is less than 3 and the player presses a letter or number...
+            if(initials.length < 3 && e.keyCode >= 48 && e.keyCode <= 90){
+                initials += e.key;
+
+                setInitials();
+            };
+
+            // Add ability to delete letters from initials if necessary
+            if(initials.length >= 1 && e.keyCode === 8) {
+                initials = initials.slice(0, -1);
+
+                setInitials();
+            };
+
+            // If the length of the initial string is 3 or enter is pressed then set the local storage initials to the string entered
+            if(initials.length === 3 || e.keyCode === 13 ){
+                localStorage.setItem('highScoreInitials', initials.toUpperCase());
+                doc.savedHiScore.innerText = `${initials.toUpperCase()} ${finalScore}`;
+                gameBoard.closePanel('.winner-initials');
+                gameBoard.openPanel('.high-score-saved');
+            };
+        });
+    }
+};
+
+GameBoard.prototype.allPanelsClosed = function() {
+    // Select all panels
+    const panels = document.querySelectorAll('.panel');
+    // Create empty array
+    const panelClosed = [];
+    // Check if all of the classlists contain 'closed' and push boolean to panelClosed array
+    panels.forEach(function(element){
+        panelClosed.push(element.classList.contains('closed'));
+    });
+    // Return true if all panels are closed and false if any are open
+    return panelClosed.includes(false) === false;
+};
+// End of GameBoard prototype
 
 
 // O B J E C T S   T O    S T O R E   F U N C T I O N S   &   E L E M E N T S ---
@@ -446,19 +463,8 @@ const gems = [blueGem, greenGem, orangeGem];
 // E V E N T   H A N D L E R S ---------------------------------------------------
 // Call event handlers
 eventHandlers.keyPress();
-
 eventHandlers.startGame();
 eventHandlers.gameOver();
 eventHandlers.winner();
 eventHandlers.rulesClose();
 eventHandlers.rulesClick();
-
-
-
-
-
-
-
-
-
-
