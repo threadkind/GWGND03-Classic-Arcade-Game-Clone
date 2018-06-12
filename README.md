@@ -8,7 +8,27 @@ Coded from scratch using HTML, CSS & (Object-Oriented) Javascript.
 
 
 ## Getting Started
-View the game here - [ Classic Arcade Game Clone](http://portfolio.threadkind.com/GWGND03-Classic-Arcade-Game-Clone/).
+View the game here to play online - [ Classic Arcade Game Clone](http://portfolio.threadkind.com/GWGND03-Classic-Arcade-Game-Clone/).
+
+To play the game locally you can clone the repository to your computer.
+[The link to the repository can be found here.](https://github.com/threadkind/GWGND03-Classic-Arcade-Game-Clone)
+
+You can download the game directly by clicking on the clone or download link on the repository page.
+
+Alternatively, you can use the command line to clone to repository.
+Make sure you have git installed on your system.
+Navigate to the folder where you want to clone the repository using the command line terminal.
+Then type:
+```
+git clone https://github.com/threadkind/GWGND03-Classic-Arcade-Game-Clone.git
+```
+...and press enter.
+This will create a local clone on your computer.
+
+
+In order to play the game, navigate to the repository clone folder and click on the index.html file. This should load in your browser and start up the game.
+
+You can also open the browser first and click `ctrl-o` to open the file selector and navigate to the index.html this way instead.
 
 
 ## How to Play
