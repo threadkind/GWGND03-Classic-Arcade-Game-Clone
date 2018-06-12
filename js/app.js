@@ -8,7 +8,7 @@ const Enemy = function(x, y, speed) {
     this.x = x;
     this.y = y;
     this.speed = speed;
-    };
+};
 
 // Prototypes for Enemy
 // Update the enemy's position, required method for game
@@ -28,7 +28,7 @@ Enemy.prototype.resetEnemy = function(){
     // When the ememy gets to the end of the screen reset back to the beginning
     if (this.x > 505) {
     this.x = -100;
-    }
+    };
 };
 
 // Check the x position of the enemy and the player...
@@ -37,7 +37,7 @@ Enemy.prototype.checkPositionX = function(playerX, xLessThan, xGreaterThan) {
         // If the player and the bug collide, reset the player and lose a life
         player.resetPlayer();
         player.loseLife();
-        };
+    };
 };
 
 Enemy.prototype.checkForCollision = function() {
@@ -46,8 +46,8 @@ Enemy.prototype.checkForCollision = function() {
         // Check if the player is in the same column also using checkPositionX
         for(let i = 0; i <= 4; i++){
             const x100 = i *100;
-            this.checkPositionX(x100, x100+50, x100-50 );
-        }
+            this.checkPositionX(x100, x100+75, x100-75);
+        };
     };
 };
 
@@ -77,7 +77,7 @@ Player.prototype.update = function() {
 
 // Draw player
 Player.prototype.render = function() {
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 // Move the player when the arrow keys are pressed - also check to make sure player cannot move outside of the game board
@@ -115,7 +115,7 @@ Player.prototype.highPointIncrease = function() {
     if(this.highestPoint > this.y){
         this.highestPoint = this.y;
         gameBoard.updateScore(this.northWalkPoints);
-    }
+    };
 };
 
 // Check if player has won game, if so: resetPlayer and show winner panel
@@ -123,7 +123,7 @@ Player.prototype.win = function() {
     if(this.y === -20) {
         this.resetPlayer();
         gameBoard.winner();
-    }
+    };
 };
 
 // Reset player back to start
@@ -174,7 +174,7 @@ const Gem =  function(x, y, color, scoreValue){
 // Draw gems on the board
 Gem.prototype.render = function() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 60, 90);
-    };
+};
 
 // Collect gems on the board if player collides with them
 Gem.prototype.collect = function() {
@@ -183,23 +183,23 @@ Gem.prototype.collect = function() {
 
     // Check if player and gems are on the same column
     // // Column 1
-    if(this.x === 20 && player.x === 0) { checkX = true;}
+    if(this.x === 20 && player.x === 0) { checkX = true;};
     // Column 2
-    if(this.x === 122 && player.x === 100) { checkX = true;}
+    if(this.x === 122 && player.x === 100) { checkX = true;};
     // Column 3
-    if(this.x === 222 && player.x === 200) { checkX = true;}
+    if(this.x === 222 && player.x === 200) { checkX = true;};
     // Column 4
-    if(this.x === 325 && player.x === 300) { checkX = true;}
+    if(this.x === 325 && player.x === 300) { checkX = true;};
     // Column 5
-    if(this.x === 425 && player.x === 400) { checkX = true;}
+    if(this.x === 425 && player.x === 400) { checkX = true;};
 
     // Check if player and gems are on the same row
     // Row 1
-    if(this.y === 280 && player.y === 220) { checkY = true;}
+    if(this.y === 280 && player.y === 220) { checkY = true;};
     // Row 2
-    if(this.y === 200 && player.y === 140) { checkY = true;}
+    if(this.y === 200 && player.y === 140) { checkY = true;};
     // Row 3
-    if(this.y === 115 && player.y === 60) { checkY = true;}
+    if(this.y === 115 && player.y === 60) { checkY = true;};
 
 
     // Check if both x + y are true
@@ -322,7 +322,7 @@ GameBoard.prototype.winner = function(){
                 gameBoard.openPanel('.high-score-saved');
             };
         });
-    }
+    };
 };
 
 GameBoard.prototype.allPanelsClosed = function() {
@@ -381,7 +381,6 @@ const eventHandlers = {
 
             player.handleInput(allowedKeys[e.keyCode]);
         });
-
     },
     startGame : function() {
         // Check which character the player has chosen and store it in the player.sprite
@@ -392,7 +391,7 @@ const eventHandlers = {
             player.sprite = chosenPlayer;
             // Close the character panel
             gameBoard.closePanel('.game-start');
-            }
+            };
         });
     },
     gameOver : function() {
@@ -411,8 +410,6 @@ const eventHandlers = {
         });
     }
 }; // End of event handlers object
-
-
 
 
 // --------------------------------------------------------------------------------------
